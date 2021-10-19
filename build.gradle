@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+repositories {
+    jcenter()
+    // mavenCentral()
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compile 'org.jsoup:jsoup:1.11.3'
+    // testImplementation "org.jsoup:jsoup:1.11.3"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:2.19.0"
+    testImplementation "org.powermock:powermock-module-junit4:2.0.2"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.2"
+}
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'guess.GuessGame'
+        )
+    }
+    from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+mainClassName = 'guess.GuessGame'
